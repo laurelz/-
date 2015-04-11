@@ -35,14 +35,32 @@ char* my_strcpy(char* dest,const char* src) {
     }
     return dest;
 }
+
+// 字符串反转函数，反转时不使用中间变量
+char * reverse_str(char* src) {
+    if (src == NULL) return src;
+	int len = strlen(src);
+	char * start = src;
+	char * end = src + len -1;
+	while (start < end) {
+	    *start = *end + *start;
+		*end = *start - *end;
+		*start = *start -*end;
+		++start;
+		--end;
+	}
+	return src;
+}
+
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
-	  cout<<src<<endl;
+    cout<<src<<endl;
     char* dest = src+16;
     char* baddest = src+6;
-    my_strcpy(dest,src);
+    //my_strcpy(dest,src);
     //my_strcpy(baddest,src);
+    dest = reverse_str(src);
 	  cout<<dest<<endl;
     //cout<<baddest<<endl;
  	return 0;
