@@ -52,9 +52,37 @@ char * reverse_str(char* src) {
 	return src;
 }
 
+int my_atoi(const char* src) {
+    if (src == NULL) return 0;
+	int len = strlen(src);
+	const char *tmp = src;
+	// tmp指向src的最后一个有效字符
+	tmp += len-1;
+	int res = 0;
+	int times = 1;
+	while (len--) {
+		if (len == 0 && *tmp == '-') {
+		    // 此时字符串的第一个字符为'-'
+			res = -res;
+			break;
+		}
+	    if ((*tmp - '0') >= 0 && (*tmp - '0') <= 9) {
+		    res += (*tmp-- - '0')*times;
+			times *= 10;
+		}
+		else{
+		    cout<<"invalid input"<<endl;
+			return INVALID_INPUT;
+		}
+	}
+		return res;
+}
+
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
+    char * src_res = new char();
+    strcpy(src_res,"-1234");
     cout<<src<<endl;
     char* dest = src+16;
     char* baddest = src+6;
@@ -62,6 +90,8 @@ int main() {
     //my_strcpy(baddest,src);
     dest = reverse_str(src);
 	  cout<<dest<<endl;
+    int res = my_atoi(src_res);
+    cout<<res<<endl;
     //cout<<baddest<<endl;
  	return 0;
 }
