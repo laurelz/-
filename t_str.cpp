@@ -78,6 +78,15 @@ int my_atoi(const char* src) {
 		return res;
 }
 
+int my_strlen(const char* src) {
+    if (src == NULL) return -1;
+	const char* ps = src;
+	int res = 0;
+	while(*ps++ != '\0')
+		++res;
+	return res;
+}
+
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
