@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string.h>
+#include<cmath>
 
 using namespace std;
 
@@ -87,6 +88,106 @@ int my_strlen(const char* src) {
 	return res;
 }
 
+string big_num_plus(string p1, string p2) {
+	string t1 = p1;
+	string t2 = p2;
+	int index1 = 0,index2= 0;
+	while (t1[index1] == ' ' || t1[index1] == '0') index1++;
+	while (t2[index2] == ' ' || t2[index2] == '0') index2++;
+	// 获取字符串的有效长度
+	int len1 = t1.size() - index1;
+	int len2 = t2.size() - index2;
+
+	// 指向末尾元素
+	int end1 = t1.size() - 1, end2 = t2.size() - 1;
+
+	int flag = 0;
+	int temp_val;
+	string res;
+	char temp_char;
+	int len = abs(len1 - len2);
+	if (len1 > len2) {
+	    while (len2-- && isdigit(t1[end1]) && isdigit(t2[end2])) {
+		    temp_val = (t1[end1--] - '0') + (t2[end2--] - '0') + flag;
+			// 若temp_val >= 10，则flag有进位
+			if (temp_val >= 10) {
+			    temp_val -= 10;
+				flag = 1;
+			}
+			else
+				flag = 0;
+			// 将该位数字int 转换为char
+			temp_char = temp_val + '0';
+			// 将字符插入res的最前端
+			res.insert(res.begin(),temp_char);
+		}
+		// 说明while异常结束
+		if (len2 >= 0) {
+		    res = "";
+			return res;
+		}
+		while (len-- && isdigit(t1[end1])) {
+		    temp_val = (t1[end1--] - '0') + flag;		
+			if (temp_val >= 10) {
+			    temp_val -= 10;
+				flag = 1;
+			}
+			else
+			    flag = 0;
+			temp_char = temp_val + '0';
+			res.insert(res.begin(),temp_char);
+		}
+		if (len >= 0) {
+		    res = "";
+			return res;
+		}
+		if (flag) {
+			temp_char = flag + '0';
+			res.insert(res.begin(),temp_char);
+		}
+	}
+	else {
+	    while (len1-- && isdigit(t1[end1]) && isdigit(t2[end2])) {
+		    temp_val = (t1[end1--] - '0') + (t2[end2--] - '0') + flag;
+			// 若temp_val >= 10，则flag有进位
+			if (temp_val >= 10) {
+			    temp_val -= 10;
+				flag = 1;
+			}
+			else
+				flag = 0;
+			// 将该位数字int 转换为char
+			temp_char = temp_val + '0';
+			// 将字符插入res的最前端
+			res.insert(res.begin(),temp_char);
+		}
+		// 说明while异常结束
+		if (len1 >= 0) {
+		    res = "";
+			return res;
+		}
+		while (len-- && isdigit(t2[end2])) {
+		    temp_val = (t2[end2--] - '0') + flag;		
+			if (temp_val >= 10) {
+			    temp_val -= 10;
+				flag = 1;
+			}
+			else
+			    flag = 0;
+			temp_char = temp_val + '0';
+			res.insert(res.begin(),temp_char);
+		}
+		if (len >= 0) {
+		    res = "";
+			return res;
+		}
+		if (flag) {
+			temp_char = flag + '0';
+			res.insert(res.begin(),temp_char);
+		}
+	}
+	return res;
+}
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
@@ -98,9 +199,13 @@ int main() {
     //my_strcpy(dest,src);
     //my_strcpy(baddest,src);
     dest = reverse_str(src);
-	  cout<<dest<<endl;
+    cout<<dest<<endl;
     int res = my_atoi(src_res);
     cout<<res<<endl;
     //cout<<baddest<<endl;
+    string a("0123456");
+    string b(" 099999999");
+    string c = big_num_plus(a,b);
+    cout<<c<<endl;
  	return 0;
 }
