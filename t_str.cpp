@@ -188,6 +188,124 @@ string big_num_plus(string p1, string p2) {
 	}
 	return res;
 }
+
+string big_num_minus(string p1, string p2) {
+    int index1= 0,index2= 0;
+	string t1=p1,t2=p2;
+	while (t1[index1] == ' ' || t1[index1] == '0') index1++;
+	while (p2[index2] == ' ' || p2[index2] == '0') index2++;
+    t1.erase(0,index1);
+	t2.erase(0,index2);
+	// 获取字符串的有效长度
+	int len1 = p1.size() - index1;
+	int len2 = p2.size() - index2;
+
+	cout<<t1<<endl<<t2<<endl;
+
+	string res;
+	// 相等直接返回
+	if (len1 == len2 && t1 == t2)
+		return "0";
+
+	// 获取字符串的末尾位置
+	int e1 = t1.size()-1;
+	int e2 = t2.size()-1;
+
+	int temp_val;
+	char temp_char;
+	int flag = 0;
+	// 长度差
+	int len = abs(len1- len2);
+    // 若len1 < len2 说明 t1 < t2
+	// 若二者长度相等，且t1<t2，用t2-t1
+	if (len1 < len2 || (len1 == len2 && t1 < t2)) {
+		// 在短字符没被比较完的情况下，做字符串减法
+	    while (len1-- && isdigit(t1[e1]) && isdigit(t2[e2])) {
+		    temp_val = (t2[e2]-'0') - flag - (t1[e1] - '0');
+			if ( temp_val < 0 ) {
+				// 此时需要借位
+				// temp_val 值为被减数+10-减数
+				temp_val = (t2[e2]-'0')+10-flag-(t1[e1]-'0');
+			    flag = 1;
+			}
+			else 
+				flag = 0;
+			temp_char = '0' + temp_val;
+			res.insert(res.begin(),temp_char);
+			e1--;
+			e2--;
+		}
+		if (len1 >= 0 ) {
+		    res = "";
+			cout<<"invalid input"<<endl;
+			return res;
+		}
+		while (len-- && isdigit(t2[e2])) {
+		    temp_val = (t2[e2]-'0') - flag;
+			if (temp_val < 0) {
+			    temp_val = t2[e2] - '0' + 10 - flag;
+			 	flag = 1;
+			}
+			else
+			    flag = 0;
+			if (len == 0 && temp_val == 0)
+				return res;
+			temp_char = temp_val + '0';
+			res.insert(res.begin(),temp_char);
+			e2--;
+		}
+		if (len >= 0) {
+		    res = "";
+			cout<<"invalid input"<<endl;
+			return res;
+		}
+		return res;
+	}
+	// 否则用 t1-t2
+	else {
+	    while (len2-- && isdigit(t1[e1]) && isdigit(t2[e2])) {
+		    temp_val = (t1[e1]-'0') - flag - (t2[e2] - '0');
+			if ( temp_val < 0 ) {
+				// 此时需要借位
+				// temp_val 值为被减数+10-减数
+				temp_val = (t1[e1]-'0')+10-flag-(t2[e2]-'0');
+			    flag = 1;
+			}
+			else 
+				flag = 0;
+			temp_char = '0' + temp_val;
+			res.insert(res.begin(),temp_char);
+			e1--;
+			e2--;
+		}
+		if (len2 >= 0 ) {
+		    res = "";
+			cout<<"invalid input"<<endl;
+			return res;
+		}
+		while (len-- && isdigit(t1[e1])) {
+		    temp_val = (t1[e1]-'0') - flag;
+			if (temp_val < 0) {
+				temp_val = t1[e1] - '0' + 10 - flag;
+			    flag = 1;
+			}
+			else
+			    flag = 0;
+			if (len == 0 && temp_val == 0 )
+				return res;
+			temp_char = temp_val + '0';
+			res.insert(res.begin(),temp_char);
+			--e1;
+		}
+		if (len >= 0) {
+		    res = "";
+			cout<<"invalid input"<<endl;
+			return res;
+		}
+		return res;
+	}
+}
+
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
