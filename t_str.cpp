@@ -306,6 +306,44 @@ string big_num_minus(string p1, string p2) {
 	}
 }
 
+
+// 在str1中查找str2，成功则返回str2第一次出现的位置
+// 失败则返回NULL
+// 回溯法
+char* my_strstr(const char* str1, char* str2) {
+    if (str1 == NULL || str2 == NULL)
+		return NULL;
+	if (*str2 == '\0')
+	    return const_cast<char*>(str1);
+	const char* s1 = str1;
+	char* s2 = str2;
+	while(*s1 != '\0') {
+	    if(*s1 == *s2) {
+		    // 如果当前字符相等，记录s1的当前位置
+     		const char* tmp = s1;
+	    	++s1;
+		    ++s2;
+     		while(*s2 != '\0' && *s1 != '\0') {
+     		    if (*s1 != *s2) {
+					// 若出现不相等字符，则将s2和s1恢复原状
+		    	    s2 = str2;
+			    	s1 = tmp+1;
+				    break;
+     	 		}
+		    	else {
+			        s1++;
+				    s2++;
+     			}
+	        }
+		    if (*s2 == '\0')
+	            return const_cast<char*>(tmp);
+    	}
+		else
+			s1++;
+	}
+	return NULL;
+}
+
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
