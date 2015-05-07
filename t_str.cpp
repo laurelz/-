@@ -344,6 +344,80 @@ char* my_strstr(const char* str1, char* str2) {
 	return NULL;
 }
 
+
+// 计算两个子串的重复长度，返回重复长度
+int comlen(char* str1, char* str2) {
+    int len = 0;
+	while(*str1++ == *str2++)
+		len++;
+	return len;
+}
+
+// 双层for循环遍历字符串，获取最长重复字串
+// O(n2)
+void getMaxSub(char* str, int size) {
+    int maxlen = 0;
+	int maxIndex = 0;
+	
+	for(int i = 0; i < size; ++i) {
+	    for(int j = i+1; j < size; ++j) {
+		    int len = comlen(&str[i], &str[j]);
+			if(len > maxlen) {
+			    maxlen = len;
+				maxIndex = i;
+			}
+		}
+	}
+	// 打印结果
+	for(int i = maxIndex; i<maxIndex+maxlen; ++i)
+		cout<<str[i];
+	cout<<endl;
+}
+
+// qsort时的比较规则
+int mstrcmp(const void* p,const void* q) {
+	return strcmp(*(char**)p, *(char**)q);
+}
+
+// 根据后缀数组获取最长重复子串
+// 重复子串肯定在后缀数组中，建立后缀数组后排序
+// 比较相邻两个后缀的重复长度，获取最大重复子串
+// 后缀数组是一个字符指针数组，记录串的所有后缀的起始地址
+// eg. banana 的后缀数组
+// suff[0] : banana
+// suff[1] : anana
+// suff[2] : nana
+// suff[3] : ana
+// suff[4] : na
+// suff[5] : a
+// 排序后： anana, ana, a, banana, nana, na
+// result: ana
+void get_max_sub(char* str, int size) {
+	int maxlen = 0;
+	int suffIndex;
+	char * maxSub = new char();
+	// 建立后缀数组
+    char* suff[size];
+	for(int i = 0; i < size; ++i)
+		suff[i] = &str[i];
+    // 根据mstrcmp排序规则，对后缀数组的元素排序
+	qsort(suff,size,sizeof(char*),mstrcmp);
+	// 比较排序后的数组的相邻元素，获取最大重复子串长度
+	for(int i = 0; i < size - 1; ++i) {
+	    int len = comlen(suff[i], suff[i+1]);
+		if (len > maxlen) {
+		    maxlen = len;
+			suffIndex = i;
+		}
+	}
+	// 将结果复制给maxSub
+    strncpy(maxSub,suff[suffIndex],maxlen);
+	// 输出最长重复子串的结果
+	for(int i = 0; i < maxlen; i++)
+		cout<<maxSub[i];
+	cout<<endl;
+}
+
 int main() {
     char * src  = new char();
     strcpy(src,"laurelfighting!");
