@@ -10,3 +10,5 @@
 4.两个正整数的相加，相减函数，通过string实现。
 
 5.strstr的简单实现，回溯法。
+
+6.求字符串的可重叠最长重复子串，两种方法，穷举搜索和后缀数组法。（摘自勇幸博客， http://www.ahathinking.com/archives/121.html ）
