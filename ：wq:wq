@@ -36,5 +36,5 @@ char firstNotRepeatingChar(char* pstring) {
 }
 int main(){
     char str[] = {"abaccdeff"};
-	cout<<firstNotRepeatingChar(str)<<endl;
+	cout<<firstNotRepeatingChar(str);
 }
