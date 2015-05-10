@@ -1,7 +1,9 @@
 #include<iostream>
 #include<string.h>
 #include<cmath>
+#include<stdlib.h>
 
+#define INVALID_INPUT 0xFFFF
 using namespace std;
 
 char* my_strcpy(char* dest,const char* src) {
@@ -418,12 +420,64 @@ void get_max_sub(char* str, int size) {
 	cout<<endl;
 }
 
+// 根据给定的两个字符指针，反转两个指针之间的内容
+void reverseFromStoE(char* start, char* end) {
+    if (start == NULL || end == NULL)
+		return;
+	char* pstart = start, *pend = end;
+	while (pstart < pend) {
+	    char temp = *pstart;
+		*pstart = *pend;
+		*pend = temp;
+		++pstart;
+		--pend;
+	}
+	return;
+}
+
+// 反转一个句子中的单词顺序
+// I am a student. 
+// student. a am I
+void reverseSentence(char* pData) {
+    if (pData == NULL)
+		return;
+	int len = strlen(pData);
+	char* ps = pData;
+	char* pe = ps + len - 1;
+	// 先反转整个字符串
+	// 变为 .tneduts a ma I
+	reverseFromStoE(ps, pe);
+
+	pe = ps;
+	// 再根据空格来分割每一个word，对每个word单独反转
+	while (*ps != '\0') {
+	    if (*ps == ' ') {
+		    ++ps;
+			++pe;
+		}
+		else if (*pe == ' ' || *pe == '\0') {
+		    // 若pe指向了空格，说明ps和pe之间是一个word
+			// 此时需要对当前的word进行反转
+			reverseFromStoE(ps, pe-1);
+			ps = ++pe;
+		}
+		else {
+		    ++pe;
+		}
+	}
+}
 int main() {
     char * src  = new char();
-    strcpy(src,"laurelfighting!");
+	// 使用strcpy会在字符串末尾填上'\0'
+    strcpy(src,"laurel fight ing!");
+
+	// 定义字符数组的方式也会在字符串末尾填上'\0'
+	//char src[] = {"laurel fight ing!"};
+	reverseSentence(src);
+    cout<<src<<endl;
+    /*
     char * src_res = new char();
     strcpy(src_res,"-1234");
-    cout<<src<<endl;
     char* dest = src+16;
     char* baddest = src+6;
     //my_strcpy(dest,src);
@@ -436,6 +490,6 @@ int main() {
     string a("0123456");
     string b(" 099999999");
     string c = big_num_plus(a,b);
-    cout<<c<<endl;
+    cout<<c<<endl;*/
  	return 0;
 }

@@ -12,3 +12,5 @@
 5.strstr的简单实现，回溯法。
 
 6.求字符串的可重叠最长重复子串，两种方法，穷举搜索和后缀数组法。（摘自勇幸博客， http://www.ahathinking.com/archives/121.html ）
+
+7.增加了反转一个句子中的单词顺序，使用reverseFrom函数，两次反转实现。
